@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+ * ==========================================================================
+ * CINEMATIC NOIR DESIGN SYSTEM — "THE GRADE"
+ * Single dark theme by design — the "grading suite" mood should never invert 
+ * to light. The color grading suite atmosphere requires deep, calibrated blacks 
+ * and shadows to showcase contrast, color temperatures, and cinematic lighting.
+ * ==========================================================================
+ */
+:root {
+  --background: #0B0B0D;
+  --surface: #161618;
+  --foreground: #F2F0EC;
+  --muted: #8B8B90;
+  --accent: #E3122A;      /* Crimson */
+  --accent-2: #C9A227;    /* Gold */
+  --border: #262629;
+}
+
+/* Fluid Typography Scale */
+h1, .text-fluid-h1 {
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+h2, .text-fluid-h2 {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+h3, .text-fluid-h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.2;
+}
+
+.text-fluid-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 70ch;
+}
+
+.text-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+/* Base Body Styles */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessibility Focus States: 2px gold outline with 2px offset */
+*:focus-visible {
+  outline: 2px solid var(--accent-2) !important;
+  outline-offset: 2px !important;
+}
+
+/* Links Animated Underline */
+.cinematic-link {
+  position: relative;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cinematic-link::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 1.5px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--accent);
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cinematic-link:hover::after {
+  width: 100%;
+}
+
+/* Waveform scanline divider */
+.scanline-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 15%, var(--border) 85%, transparent);
+  position: relative;
+}
+
+.scanline-divider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.7;
+}
+
+/* Subtle Film Grain */
+.film-grain-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Scanline horizontal noise overlay for cinema monitor feel */
+.scanlines-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 998;
+  opacity: 0.02;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Vignette overlay */
+.vignette-radial {
+  background: radial-gradient(circle at 50% 50%, rgba(11, 11, 13, 0) 40%, rgba(11, 11, 13, 0.7) 100%);
+}
+
+/* Hide scrollbars for clean timeline scrubbing */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Respect Prefers-Reduced-Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .film-grain-bg, .scanlines-overlay {
+    display: none !important;
+  }
+}
