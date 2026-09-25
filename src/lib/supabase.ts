@@ -161,7 +161,10 @@ export async function submitContactForm(formData: {
   saveStoredMessages(updated);
 
   // 2. Dispatch real email via Web3Forms if access key is configured
-  const web3formsKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+  let web3formsKey = (import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '').trim().replace(/^["']|["']$/g, '');
+  if (web3formsKey.includes('key=')) {
+    web3formsKey = web3formsKey.split('key=')[1].split('&')[0];
+  }
   let emailSent = false;
 
   if (web3formsKey) {
